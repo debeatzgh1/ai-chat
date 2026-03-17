@@ -45,7 +45,7 @@
         }
 
         .chat-frame-wrapper {
-            width: 100%; height: 600px; background: #111;
+            width: 110%; height: 600px; background: #111;
             border-radius: 20px; border: 1px solid var(--border);
             overflow: hidden; margin-bottom: 40px; display: none;
         }
