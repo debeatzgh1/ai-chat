@@ -1,594 +1,148 @@
-<div id="smart-float-container" class="float-wrapper">
-    <div id="float-nudge" class="float-nudge">
-        <p>Claim your <strong>.wordpress.com</strong> site!</p>
-        <button onclick="dismissNudge()" class="nudge-close">×</button>
-    </div>
 
-    <div class="float-main-btn" onclick="launchWPSignup()">
-        <i class="fab fa-wordpress"></i>
-        <span class="btn-label">Create Site</span>
-    </div>
-</div>
-
-<style>
-    .float-wrapper {
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
-        z-index: 10005;
-        font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-
-    /* Floating Nudge Bubble */
-    .float-nudge {
-        background: rgba(10, 10, 12, 0.9);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(0, 242, 255, 0.3);
-        padding: 8px 15px;
-        border-radius: 12px;
-        color: #f0f6fc;
-        font-size: 11px;
-        white-space: nowrap;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        display: none; /* Controlled by JS */
-        animation: slideUpFade 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        align-items: center;
-        gap: 10px;
-    }
-
-    .nudge-close {
-        background: none;
-        border: none;
-        color: #64748b;
-        font-size: 16px;
-        cursor: pointer;
-        padding: 0 2px;
-        line-height: 1;
-    }
-
-    .nudge-close:hover { color: #00f2ff; }
-
-    /* Main Button */
-    .float-main-btn {
-        background: #00f2ff;
-        color: #000;
-        padding: 10px 20px;
-        border-radius: 99px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        cursor: pointer;
-        font-weight: 800;
-        text-transform: uppercase;
-        font-size: 10px;
-        letter-spacing: 1px;
-        box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
-        transition: all 0.3s ease;
-    }
-
-    .float-main-btn:hover {
-        transform: translateY(-3px) scale(1.05);
-        background: #fff;
-        box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
-    }
-
-    .float-main-btn i { font-size: 14px; }
-
-    @keyframes slideUpFade {
-        from { opacity: 0; transform: translateY(15px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 480px) {
-        .float-main-btn { padding: 10px 16px; }
-        .btn-label { display: none; } /* On mobile, only show icon to save space */
-    }
-</style>
-
-<script>
-    const NUDGE_KEY = 'wp_nudge_dismissed';
-
-    function showNudge() {
-        const isDismissed = localStorage.getItem(NUDGE_KEY);
-        if (!isDismissed) {
-            document.getElementById('float-nudge').style.display = 'flex';
-        }
-    }
-
-    function dismissNudge() {
-        document.getElementById('float-nudge').style.display = 'none';
-        // Remember dismissal for 24h
-        localStorage.setItem(NUDGE_KEY, 'true');
-    }
-
-    function launchWPSignup() {
-        const targetUrl = "https://debeatzgh1.github.io/Blogger-sign-up-button-/";
-        
-        // Use existing overlay logic if available
-        if (typeof openLink === "function") {
-            openLink(targetUrl);
-        } else if (typeof openFrame === "function") {
-            openFrame(targetUrl);
-        } else {
-            window.open(targetUrl, '_blank');
-        }
-    }
-
-    // Auto-popup nudge after 8 seconds
-    window.addEventListener('load', () => {
-        setTimeout(showNudge, 8000);
-    });
-</script>
-
-
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>Digital creators Hub </title>
-    <script async src="https://tally.so/widgets/embed.js"></script>
-    <style type="text/css">
-      html { margin: 0; height: 100%; overflow: hidden; }
-      iframe { position: absolute; top: 0; right: 0; bottom: 0; left: 0; border: 0; }
-    </style>
-  </head>
-  <body>
-    <iframe data-tally-src="https://tally.so/r/w4veGo?transparentBackground=1" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0" title="Digital creators Hub "></iframe>
-  </body>
-</html>
-
-
-
-<!-- Elfsight AI Chatbot | Assistant Bot -->
-<script src="https://elfsightcdn.com/platform.js" async></script>
-<div class="elfsight-app-2552d2e4-68c0-45de-b815-0f6717b1a0e6" data-elfsight-app-lazy></div>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeBeatzGH | AI Assistant Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        
         :root {
-            --banner-bg: rgba(13, 17, 23, 0.85);
-            --accent-pink: #FF1493;
-            --accent-glow: rgba(255, 20, 147, 0.4);
-            --text-white: #ffffff;
-            --border-glass: rgba(255, 255, 255, 0.1);
+            --accent: #00f2ff;
+            --bg-dark: #0a0a0c;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
-        /* Floating Banner Container */
-        .top-floating-banner {
-            position: fixed;
-            top: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 700px;
-            height: 50px;
-            background: var(--banner-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border-glass);
-            border-radius: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 10px 0 25px;
-            z-index: 10000;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
-            animation: slideDown 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        body {
+            background-color: var(--bg-dark);
+            color: #fff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
         }
 
-        /* Carousel Wrapper */
-        .carousel-wrapper {
-            flex: 1;
-            overflow: hidden;
+        /* --- SECTION 1: SELECTION CAROUSEL --- */
+        .carousel-container {
+            display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+            gap: 20px; padding: 20px; scrollbar-width: none;
+        }
+        .carousel-container::-webkit-scrollbar { display: none; }
+
+        .bot-card {
+            min-width: 300px; background: var(--card-bg);
+            border: 1px solid var(--border); border-radius: 24px;
+            overflow: hidden; scroll-snap-align: start; transition: 0.4s;
             position: relative;
-            margin-right: 15px;
+        }
+        .bot-card:hover { border-color: var(--accent); transform: translateY(-5px); }
+
+        /* --- SECTION 2: LAZY INTERFACE BAY --- */
+        .interface-bay {
+            background: rgba(0,0,0,0.3); border-top: 1px solid var(--border);
+            min-height: 600px; margin-top: 50px; padding: 40px 20px;
         }
 
-        .carousel-content {
-            display: flex;
-            white-space: nowrap;
-            animation: scrollText 15s linear infinite;
+        .chat-frame-wrapper {
+            width: 100%; height: 600px; background: #111;
+            border-radius: 20px; border: 1px solid var(--border);
+            overflow: hidden; margin-bottom: 40px; display: none;
+        }
+        .chat-frame-wrapper.active { display: block; animation: fadeIn 0.8s ease; }
+
+        /* --- FLOATING COMPONENTS --- */
+        .wp-float {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            z-index: 1000;
         }
 
-        .carousel-content span {
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            font-size: 0.85rem;
-            color: var(--text-white);
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* Launch Button */
-        .banner-btn {
-            background: var(--accent-pink);
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 0 15px var(--accent-glow);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .banner-btn:hover {
-            transform: scale(1.05);
-            background: #ff69b4;
-            box-shadow: 0 0 25px var(--accent-glow);
-        }
-
-        /* Modal Overlay for Milkshake */
-        #milkshake-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-            display: none;
-            z-index: 10001;
-            flex-direction: column;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .modal-header {
-            padding: 15px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #161b22;
-        }
-
-        .close-btn {
-            background: #f85149;
-            color: white;
-            border: none;
-            padding: 5px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        #msha-iframe {
-            width: 100%;
-            flex-grow: 1;
-            border: none;
-        }
-
-        /* Animations */
-        @keyframes scrollText {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        @keyframes slideDown {
-            from { transform: translate(-50%, -100px); opacity: 0; }
-            to { transform: translate(-50%, 0); opacity: 1; }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* Mobile Adjustments */
-        @media (max-width: 600px) {
-            .carousel-content span { font-size: 0.75rem; }
-            .banner-btn span { display: none; }
-            .banner-btn { padding: 8px 12px; }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <div class="top-floating-banner">
-        <div class="carousel-wrapper">
-            <div class="carousel-content">
-                <span>
-                    💻 Access your lifestyle, productivity tools and ideas All in one place! 🚀 💡 📈
-                </span>
+    <header class="pt-20 pb-10 text-center">
+        <h1 class="text-4xl font-black tracking-tighter">AI Assistant <span class="text-cyan-400">Hub</span></h1>
+        <p class="text-gray-500 mt-2">Select an agent to begin your session</p>
+    </header>
+
+    <div class="carousel-container max-w-6xl mx-auto">
+        <div class="bot-card">
+            <img src="https://debeatzgh.wordpress.com/wp-content/uploads/2025/08/createavibranteye-catchingyoutubeblogthumbnailfeaturingafloatingquizpop-upicononadigitalblogpage5084708667809205788.jpg" class="h-40 w-full object-cover opacity-60">
+            <div class="p-6">
+                <h3 class="font-bold text-lg">AI Companion</h3>
+                <p class="text-xs text-gray-400 mt-2 mb-4">Everyday productivity & creative ideas.</p>
+                <button onclick="activateChat('bot1', 'https://agent.jotform.com/0195482a4e8d72b894a09678ddb9b513d564')" class="w-full py-3 bg-cyan-500 text-black font-black rounded-xl text-[10px] uppercase tracking-widest hover:bg-white transition">Initialize Chat</button>
             </div>
         </div>
+
+        <div class="bot-card">
+            <img src="https://debeatzgh.wordpress.com/wp-content/uploads/2025/08/createamodernandcleanthumbnailforawebdevelopmentproducttitledmodernhomepagestylingtemplatewithtailwindcss3420170625469385526.jpg" class="h-40 w-full object-cover opacity-60">
+            <div class="p-6">
+                <h3 class="font-bold text-lg">Debeatzgh AI</h3>
+                <p class="text-xs text-gray-400 mt-2 mb-4">Expert automation & strategy assistant.</p>
+                <button onclick="activateChat('bot2', 'https://agent.jotform.com/0195424fb5d47897a72080768094791e9c32')" class="w-full py-3 bg-blue-500 text-white font-black rounded-xl text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">Initialize Chat</button>
+            </div>
+        </div>
+
+        <div class="bot-card">
+            <img src="https://debeatzgh.wordpress.com/wp-content/uploads/2025/08/designadigitalproductse-commerceonlinedeals3545265155247625100.jpg" class="h-40 w-full object-cover opacity-60">
+            <div class="p-6">
+                <h3 class="font-bold text-lg">Income Strategist</h3>
+                <p class="text-xs text-gray-400 mt-2 mb-4">Monetization & side-hustle logic.</p>
+                <button onclick="activateChat('bot3', 'https://agent.jotform.com/0195479af1b879f3a82ea15cbaf3859eaa44')" class="w-full py-3 bg-purple-500 text-white font-black rounded-xl text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">Initialize Chat</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="interface-bay" id="interaction-bay">
+        <div class="max-w-4xl mx-auto text-center mb-10" id="bay-placeholder">
+            <i class="fas fa-robot text-4xl text-gray-800 mb-4"></i>
+            <p class="text-gray-600 font-bold uppercase text-xs tracking-widest">Select an agent above to load interface</p>
+        </div>
         
-        <button class="banner-btn" onclick="openMilkshake()">
-            <span>Launch Hub</span> ⭐️
+        <div id="chat-viewport" class="max-w-5xl mx-auto">
+            <div id="bot-frame-container" class="chat-frame-wrapper">
+                <iframe id="active-iframe" src="" class="w-full h-full border-none"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div class="wp-float">
+        <div id="wp-nudge" class="hidden bg-black/90 border border-cyan-500/30 p-3 rounded-2xl mb-4 flex items-center gap-4 shadow-2xl animate-bounce">
+            <span class="text-[10px] text-white">Claim your <strong>.wordpress.com</strong> site!</span>
+            <button onclick="document.getElementById('wp-nudge').remove()" class="text-gray-500">✕</button>
+        </div>
+        <button onclick="window.open('https://debeatzgh1.github.io/Blogger-sign-up-button-/', '_blank')" class="bg-cyan-400 text-black px-6 py-3 rounded-full font-black text-[10px] tracking-tighter uppercase flex items-center gap-2 shadow-lg">
+            <i class="fab fa-wordpress text-lg"></i> Create Site
         </button>
     </div>
 
-    <div id="milkshake-modal">
-        <div class="modal-header">
-            <span style="color:white; font-family: sans-serif; font-weight: bold;">Debeatzgh Hub</span>
-            <button class="close-btn" onclick="closeMilkshake()">✕ Close</button>
-        </div>
-        <iframe id="msha-iframe" src=""></iframe>
-    </div>
-
     <script>
-        function openMilkshake() {
-            const modal = document.getElementById('milkshake-modal');
-            const iframe = document.getElementById('msha-iframe');
+        function activateChat(botId, url) {
+            // Hide placeholder
+            document.getElementById('bay-placeholder').style.display = 'none';
             
-            // Set source only when clicked to save performance
-            iframe.src = "https://msha.ke/debeatzgh";
-            modal.style.display = "flex";
-            document.body.style.overflow = "hidden"; // Disable scroll
+            // Setup Frame
+            const container = document.getElementById('bot-frame-container');
+            const iframe = document.getElementById('active-iframe');
+            
+            // Lazy load source
+            iframe.src = url;
+            container.classList.add('active');
+            
+            // Smooth scroll to chat
+            window.scrollTo({
+                top: document.getElementById('interaction-bay').offsetTop - 20,
+                behavior: 'smooth'
+            });
         }
 
-        function closeMilkshake() {
-            const modal = document.getElementById('milkshake-modal');
-            const iframe = document.getElementById('msha-iframe');
-            
-            modal.style.display = "none";
-            iframe.src = ""; // Stop the iframe content
-            document.body.style.overflow = "auto"; // Re-enable scroll
-        }
+        // Show WP Nudge after delay
+        setTimeout(() => {
+            document.getElementById('wp-nudge').classList.remove('hidden');
+        }, 5000);
     </script>
-
 </body>
 </html>
-
-
-
-
-AI Hub – Interactive Assistants
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet" />
-
-<style>
-/* ================================
-   AI HUB FLOATING BUTTON
-================================ */
-.ai-hub-btn {
-  position: fixed;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: linear-gradient(135deg,#16a34a,#22c55e);
-  color: #fff;
-  padding: 12px 16px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 10px 30px rgba(0,0,0,.3);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: transform .25s ease, opacity .25s ease;
-}
-
-.ai-hub-btn:hover {
-  transform: translateY(-50%) scale(1.05);
-  opacity: .95;
-}
-
-/* NEW AI BADGE */
-.new-badge {
-  background: #ef4444;
-  color: #fff;
-  font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 999px;
-  animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.15); opacity: .7; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-/* ================================
-   OVERLAY
-================================ */
-#ai-hub-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.75);
-  z-index: 99999;
-}
-
-.ai-hub-box {
-  width: 96%;
-  height: 92%;
-  margin: 3% auto;
-  background: #f5f7fb;
-  border-radius: 20px;
-  overflow: hidden;
-  position: relative;
-}
-
-.ai-hub-close {
-  position: absolute;
-  top: 12px;
-  right: 18px;
-  font-size: 28px;
-  cursor: pointer;
-  z-index: 10;
-}
-
-/* ================================
-   CAROUSEL
-================================ */
-.carousel {
-  display: flex;
-  gap: 20px;
-  padding: 40px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-}
-
-.card {
-  min-width: 320px;
-  background: white;
-  border-radius: 18px;
-  box-shadow: 0 10px 25px rgba(0,0,0,.15);
-  scroll-snap-align: center;
-  overflow: hidden;
-  transition: transform .3s;
-}
-
-.card:hover {
-  transform: translateY(-6px);
-}
-
-.card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-}
-
-.card-body {
-  padding: 20px;
-}
-
-/* ================================
-   IFRAME MODAL
-================================ */
-#iframe-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.7);
-  z-index: 100000;
-}
-
-#iframe-box {
-  width: 95%;
-  height: 92%;
-  margin: 3% auto;
-  background: #fff;
-  border-radius: 18px;
-  overflow: hidden;
-  position: relative;
-}
-
-#iframe-box iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-#iframe-close {
-  position: absolute;
-  top: 10px;
-  right: 16px;
-  font-size: 26px;
-  cursor: pointer;
-  z-index: 10;
-}
-</style>
-
-
-
-
-<!-- FLOATING AI HUB BUTTON -->
-<div class="ai-hub-btn" onclick="openAIHub()">
-  🤖 AI Hub
-  <span class="new-badge">NEW AI</span>
-</div>
-
-<!-- AI HUB OVERLAY -->
-<div id="ai-hub-overlay">
-  <div class="ai-hub-box">
-    <span class="ai-hub-close" onclick="closeAIHub()">✖</span>
-
-    <div class="text-center pt-8">
-      <h1 class="text-3xl font-bold text-gray-800">AI Assistant Hub</h1>
-      <p class="text-gray-600 mt-2">Chat with purpose-built AI assistants in real time</p>
-    </div>
-
-    <!-- CAROUSEL -->
-    <div class="carousel">
-
-      <!-- CARD 1 -->
-      <div class="card">
-        <img src="https://debeatzgh.wordpress.com/wp-content/uploads/2025/08/createavibranteye-catchingyoutubeblogthumbnailfeaturingafloatingquizpop-upicononadigitalblogpage5084708667809205788.jpg" />
-        <div class="card-body">
-          <h3 class="text-xl font-bold mb-2">AI Companion</h3>
-          <p class="text-sm text-gray-600 mb-4">
-            Your everyday smart companion for guidance, ideas, and productivity.
-          </p>
-          <button onclick="openChat('https://agent.jotform.com/0195482a4e8d72b894a09678ddb9b513d564')" 
-            class="bg-green-600 text-white px-4 py-2 rounded-lg w-full">
-            Chat Now
-          </button>
-        </div>
-      </div>
-
-      <!-- CARD 2 -->
-      <div class="card">
-        <img src="https://debeatzgh.wordpress.com/wp-content/uploads/2025/08/createamodernandcleanthumbnailforawebdevelopmentproducttitledmodernhomepagestylingtemplatewithtailwindcss3420170625469385526.jpg" />
-        <div class="card-body">
-          <h3 class="text-xl font-bold mb-2">Debeatzgh AI Assistant</h3>
-          <p class="text-sm text-gray-600 mb-4">
-            Expert assistant for blogging, tools, automation, and digital growth.
-          </p>
-          <button onclick="openChat('https://agent.jotform.com/0195424fb5d47897a72080768094791e9c32')" 
-            class="bg-blue-600 text-white px-4 py-2 rounded-lg w-full">
-            Chat Now
-          </button>
-        </div>
-      </div>
-
-      <!-- CARD 3 -->
-      <div class="card">
-        <img src="https://debeatzgh.wordpress.com/wp-content/uploads/2025/08/designadigitalproductse-commerceonlinedeals3545265155247625100.jpg" />
-        <div class="card-body">
-          <h3 class="text-xl font-bold mb-2">Side Hustle Assistant</h3>
-          <p class="text-sm text-gray-600 mb-4">
-            Discover side hustles, monetization ideas, and online income strategies.
-          </p>
-          <button onclick="openChat('https://agent.jotform.com/0195479af1b879f3a82ea15cbaf3859eaa44')" 
-            class="bg-purple-600 text-white px-4 py-2 rounded-lg w-full">
-            Chat Now
-          </button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- IFRAME CHAT MODAL -->
-<div id="iframe-modal">
-  <div id="iframe-box">
-    <span id="iframe-close" onclick="closeChat()">✖</span>
-    <iframe id="chat-frame"></iframe>
-  </div>
-</div>
-
-<script>
-function openAIHub() {
-  document.getElementById("ai-hub-overlay").style.display = "block";
-}
-
-function closeAIHub() {
-  document.getElementById("ai-hub-overlay").style.display = "none";
-}
-
-function openChat(url) {
-  document.getElementById("chat-frame").src = url;
-  document.getElementById("iframe-modal").style.display = "block";
-}
-
-function closeChat() {
-  document.getElementById("iframe-modal").style.display = "none";
-  document.getElementById("chat-frame").src = "";
-}
-</script>
-
-
