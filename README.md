@@ -1,404 +1,1077 @@
 
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sleek Floating Banner</title>
-    <style>
-        /* Modern CSS reset for consistency */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            min-height: 200vh; /* Adds scrollable height to visualize the fixed positioning */
-            background-color: #121212; /* A dark, neutral background */
-            color: #fff;
-        }
+<title></title>
 
-        /* MAIN FLOATING BANNER CONTAINER
-           Fixed to the top center of the screen
-        */
-        #sleek-floating-banner {
-            position: fixed;
-            top: 20px; /* Slight offset from the top border */
-            left: 50%;
-            transform: translateX(-50%); /* Centers horizontally */
-            width: 340px; /* Compact, friendly width for desktop/mobile */
-            height: 52px;
-            background: rgba(30, 30, 30, 0.9); /* Dark semi-transparent background */
-            backdrop-filter: blur(10px); /* Modern 'glassmorphism' effect */
-            -webkit-backdrop-filter: blur(10px); /* Safari support */
-            border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle outline */
-            border-radius: 50px; /* Fully rounded edges for a sleek pill look */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Strong shadow for depth */
-            display: flex;
-            align-items: center;
-            justify-content: space-between; /* Icon+Text on left, button on right */
-            padding: 0 6px 0 16px; /* Optimized padding for the components */
-            z-index: 10000; /* Ensures it stays above all other content */
-            overflow: hidden; /* Needed for the marquee slide effect */
-            
-            /* Entry animation */
-            animation: bannerEntry 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
 
-        /* Hover effect to highlight the interactive nature */
-        #sleek-floating-banner:hover {
-            transform: translateX(-50%) scale(1.03);
-            border-color: #FF1493; /* DeepPink border highlight on hover */
-        }
+<!-- Icons -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
-        /* Banner entry animation (slides in and bounces slightly) */
-        @keyframes bannerEntry {
-            from { top: -60px; opacity: 0; }
-            to { top: 20px; opacity: 1; }
-        }
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-        /* --- MARQUEE SLIDER STYLES --- */
-        .banner-text-slider {
-            flex: 1;
-            height: 22px; /* Set height to constrain the text */
-            overflow: hidden; /* Masks text outside the area */
-            position: relative;
-            margin-right: 12px;
-        }
+<style>
 
-        .slide-inner {
-            display: flex;
-            flex-direction: column; /* Stacks text vertically for sliding */
-            animation: verticalSlide 8s cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
-        }
+:root{
+    --bg:#07111f;
+    --card:#0f172a;
+    --card2:#111c33;
+    --primary:#00e5ff;
+    --secondary:#6366f1;
+    --text:#f8fafc;
+    --muted:#94a3b8;
+    --border:rgba(255,255,255,.08);
+}
 
-        /* Text element properties */
-        .slide-inner span {
-            height: 22px; /* Matches parent height */
-            color: rgba(255, 255, 255, 0.9); /* Slightly off-white for better readability */
-            font-size: 0.8rem;
-            font-weight: 600; /* Semi-bold */
-            display: flex;
-            align-items: center;
-            gap: 8px; /* Gap for the indicator dot */
-            white-space: nowrap; /* Prevents text wrapping */
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        /* Color highlight for key inscriptions */
-        .highlight-text {
-            color: #FF1493; /* DeepPink */
-        }
+html{
+    scroll-behavior:smooth;
+}
 
-        /* Subtle animated dot for live status feel */
-        .live-dot {
-            width: 7px;
-            height: 7px;
-            background-color: #FF1493;
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(255, 20, 147, 0.8);
-            animation: pulseDot 1.5s infinite;
-        }
+body{
+    font-family:'Inter',sans-serif;
+    background:linear-gradient(180deg,#050b16,#081120,#0b1728);
+    color:var(--text);
+    overflow-x:hidden;
+}
 
-        /* Pulse animation for the live dot */
-        @keyframes pulseDot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(1.2); }
-        }
+/* =========================
+PRELOADER
+========================= */
 
-        /* Vertical Slide Keyframes:
-           4 states (3 texts + return to 1). 
-           Uses percentages to control pause duration at each state.
-        */
-        @keyframes verticalSlide {
-            0%, 22% { transform: translateY(0); } /* Pauses on Text 1 */
-            33%, 55% { transform: translateY(-22px); } /* Slides to and Pauses on Text 2 */
-            66%, 88% { transform: translateY(-44px); } /* Slides to and Pauses on Text 3 */
-            100% { transform: translateY(0); } /* Loops back to Text 1 smoothly */
-        }
+#loader{
+    position:fixed;
+    inset:0;
+    background:#040812;
+    z-index:99999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:20px;
+}
 
-        /* --- BUTTON STYLES --- */
-        .launch-btn {
-            background-color: #FF1493; /* Vibrant DeepPink for main color */
-            color: #fff;
-            padding: 9px 20px;
-            border-radius: 25px; /* Rounded pill style to match banner */
-            font-size: 0.75rem;
-            font-weight: 900; /* Extra bold text for contrast */
-            border: none;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-decoration: none; /* Removes underline for <a> tags */
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3); /* Soft DeepPink glow */
-        }
+.loader-ring{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    border:4px solid rgba(255,255,255,.08);
+    border-top:4px solid var(--primary);
+    animation:spin 1s linear infinite;
+}
 
-        /* Button interaction effects */
-        .launch-btn:hover {
-            background-color: #ff50ac; /* Lighter DeepPink on hover */
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5); /* Stronger DeepPink glow */
-        }
+@keyframes spin{
+    100%{transform:rotate(360deg);}
+}
 
-        .launch-btn:active {
-            transform: translateY(1px) scale(0.98); /* Click interaction feedback */
-        }
+/* =========================
+TOP FLOATING NAV
+========================= */
 
-        /* --- SVG ICON STYLE --- */
-        .arrow-icon {
-            width: 13px;
-            height: 13px;
-            fill: none;
-            stroke: currentColor; /* Matches text color (#fff) */
-            stroke-width: 3;
-            transition: transform 0.3s ease;
-        }
+.floating-nav{
+    position:fixed;
+    top:18px;
+    left:50%;
+    transform:translateX(-50%);
+    width:min(92%,780px);
+    height:72px;
+    background:rgba(10,18,34,.7);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:30px;
+    z-index:9999;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 12px 0 20px;
+    box-shadow:0 20px 50px rgba(0,0,0,.45);
+}
 
-        /* Hover animation specifically for the icon */
-        .launch-btn:hover .arrow-icon {
-            transform: translateX(3px); /* Arrow nudges right on hover */
-        }
-    </style>
+.brand{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.brand-icon{
+    width:45px;
+    height:45px;
+    border-radius:14px;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.2rem;
+    box-shadow:0 10px 30px rgba(0,229,255,.3);
+}
+
+.brand h2{
+    font-size:1rem;
+    font-weight:800;
+}
+
+.brand p{
+    color:var(--muted);
+    font-size:.72rem;
+}
+
+.live-status{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:#cbd5e1;
+    font-size:.78rem;
+}
+
+.pulse-dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:#22c55e;
+    animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.5);opacity:.4;}
+    100%{transform:scale(1);}
+}
+
+.nav-btn{
+    border:none;
+    padding:13px 22px;
+    border-radius:16px;
+    font-weight:800;
+    cursor:pointer;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:#00111a;
+    transition:.3s ease;
+}
+
+.nav-btn:hover{
+    transform:translateY(-3px);
+}
+
+/* =========================
+HERO
+========================= */
+
+.hero{
+    padding:160px 6% 100px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.hero::before{
+    content:'';
+    position:absolute;
+    width:500px;
+    height:500px;
+    background:radial-gradient(circle,var(--primary),transparent 70%);
+    opacity:.12;
+    top:-150px;
+    left:-120px;
+    filter:blur(50px);
+}
+
+.hero::after{
+    content:'';
+    position:absolute;
+    width:500px;
+    height:500px;
+    background:radial-gradient(circle,#7c3aed,transparent 70%);
+    opacity:.12;
+    bottom:-180px;
+    right:-120px;
+    filter:blur(50px);
+}
+
+.hero-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 20px;
+    border-radius:999px;
+    background:rgba(0,229,255,.08);
+    border:1px solid rgba(0,229,255,.15);
+    margin-bottom:30px;
+    color:#bae6fd;
+    font-size:.85rem;
+}
+
+.hero h1{
+    font-size:clamp(2.8rem,7vw,5.5rem);
+    line-height:1.05;
+    font-weight:900;
+    margin-bottom:24px;
+}
+
+.hero h1 span{
+    background:linear-gradient(90deg,var(--primary),#818cf8);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.hero p{
+    max-width:780px;
+    margin:auto;
+    color:var(--muted);
+    line-height:1.9;
+    font-size:1.05rem;
+}
+
+/* =========================
+STATS
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:24px;
+    padding:0 6% 90px;
+}
+
+.stat-box{
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:26px;
+    padding:35px;
+    text-align:center;
+    backdrop-filter:blur(12px);
+}
+
+.stat-box h2{
+    font-size:2.8rem;
+    margin-bottom:12px;
+    color:#67e8f9;
+}
+
+.stat-box p{
+    color:var(--muted);
+}
+
+/* =========================
+SECTION TITLES
+========================= */
+
+.section{
+    padding:0 6% 90px;
+}
+
+.section-head{
+    margin-bottom:40px;
+}
+
+.section-tag{
+    color:#67e8f9;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:.75rem;
+    margin-bottom:16px;
+    display:block;
+}
+
+.section-title{
+    font-size:clamp(2rem,5vw,3rem);
+    font-weight:900;
+    margin-bottom:15px;
+}
+
+.section-desc{
+    color:var(--muted);
+    max-width:700px;
+    line-height:1.8;
+}
+
+/* =========================
+BOT CARDS
+========================= */
+
+.carousel{
+    display:flex;
+    overflow-x:auto;
+    gap:24px;
+    scroll-snap-type:x mandatory;
+    scrollbar-width:none;
+    padding-bottom:15px;
+}
+
+.carousel::-webkit-scrollbar{
+    display:none;
+}
+
+.bot-card{
+    min-width:340px;
+    max-width:340px;
+    background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:30px;
+    overflow:hidden;
+    transition:.35s ease;
+    scroll-snap-align:start;
+    position:relative;
+}
+
+.bot-card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(0,229,255,.25);
+    box-shadow:0 20px 50px rgba(0,0,0,.35);
+}
+
+.bot-image{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    opacity:.78;
+}
+
+.bot-body{
+    padding:28px;
+}
+
+.bot-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 14px;
+    border-radius:999px;
+    background:rgba(0,229,255,.08);
+    color:#a5f3fc;
+    font-size:.72rem;
+    margin-bottom:18px;
+}
+
+.bot-body h3{
+    font-size:1.5rem;
+    margin-bottom:12px;
+}
+
+.bot-body p{
+    color:var(--muted);
+    line-height:1.8;
+    margin-bottom:28px;
+}
+
+.bot-actions{
+    display:flex;
+    gap:12px;
+}
+
+.bot-btn{
+    flex:1;
+    border:none;
+    padding:14px;
+    border-radius:16px;
+    font-weight:800;
+    cursor:pointer;
+    transition:.3s ease;
+}
+
+.primary-btn{
+    background:linear-gradient(135deg,var(--primary),#818cf8);
+    color:#00111a;
+}
+
+.secondary-btn{
+    background:rgba(255,255,255,.05);
+    color:white;
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.bot-btn:hover{
+    transform:translateY(-2px);
+}
+
+/* =========================
+CHAT SECTION
+========================= */
+
+.chat-zone{
+    background:rgba(255,255,255,.02);
+    border-top:1px solid rgba(255,255,255,.05);
+    padding:80px 6%;
+}
+
+.chat-placeholder{
+    text-align:center;
+    padding:100px 20px;
+    border:2px dashed rgba(255,255,255,.08);
+    border-radius:30px;
+    background:rgba(255,255,255,.02);
+}
+
+.chat-placeholder i{
+    font-size:4rem;
+    color:#1e293b;
+    margin-bottom:25px;
+}
+
+.chat-placeholder h3{
+    font-size:1.7rem;
+    margin-bottom:15px;
+}
+
+.chat-placeholder p{
+    color:var(--muted);
+    line-height:1.8;
+}
+
+.chat-frame{
+    display:none;
+    width:100%;
+    height:780px;
+    overflow:hidden;
+    border-radius:30px;
+    border:1px solid rgba(255,255,255,.08);
+    background:#000;
+    animation:fadeIn .6s ease;
+}
+
+.chat-frame.active{
+    display:block;
+}
+
+.chat-frame iframe{
+    width:100%;
+    height:100%;
+    border:none;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================
+FEATURES
+========================= */
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:24px;
+}
+
+.feature-card{
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:24px;
+    padding:35px;
+}
+
+.feature-icon{
+    width:65px;
+    height:65px;
+    border-radius:20px;
+    background:linear-gradient(135deg,var(--primary),#6366f1);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.4rem;
+    margin-bottom:20px;
+}
+
+.feature-card h3{
+    margin-bottom:15px;
+}
+
+.feature-card p{
+    color:var(--muted);
+    line-height:1.8;
+}
+
+/* =========================
+POPUP
+========================= */
+
+.popup{
+    position:fixed;
+    bottom:25px;
+    right:25px;
+    width:340px;
+    background:rgba(15,23,42,.92);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:26px;
+    padding:24px;
+    z-index:99999;
+    display:none;
+    animation:fadeIn .5s ease;
+    box-shadow:0 20px 50px rgba(0,0,0,.45);
+}
+
+.popup h4{
+    margin-bottom:10px;
+}
+
+.popup p{
+    color:var(--muted);
+    font-size:.92rem;
+    line-height:1.7;
+    margin-bottom:18px;
+}
+
+.popup-actions{
+    display:flex;
+    gap:10px;
+}
+
+.popup button{
+    flex:1;
+    border:none;
+    padding:12px;
+    border-radius:14px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.popup-primary{
+    background:linear-gradient(135deg,var(--primary),#6366f1);
+    color:#00111a;
+}
+
+.popup-secondary{
+    background:rgba(255,255,255,.06);
+    color:white;
+}
+
+/* =========================
+FOOTER
+========================= */
+
+footer{
+    padding:60px 6%;
+    text-align:center;
+    border-top:1px solid rgba(255,255,255,.06);
+}
+
+footer p{
+    color:var(--muted);
+    line-height:1.8;
+}
+
+/* =========================
+MOBILE
+========================= */
+
+@media(max-width:768px){
+
+.floating-nav{
+    height:auto;
+    padding:14px;
+    flex-direction:column;
+    gap:15px;
+    border-radius:26px;
+}
+
+.hero{
+    padding-top:220px;
+}
+
+.bot-card{
+    min-width:88%;
+}
+
+.chat-frame{
+    height:650px;
+}
+
+.popup{
+    width:90%;
+    right:5%;
+}
+
+}
+
+</style>
 </head>
+
 <body>
 
-    <div id="sleek-floating-banner" onclick="openHomeLink()">
-        <div class="banner-text-slider">
-            <div class="slide-inner">
-                <span>
-                    <div class="live-dot"></div> 
-                    DeBeatz<span class="highlight-text">GH</span> Resource Hub
-                </span>
-                <span>
-                    <div class="live-dot"></div>
-                    Lifestyle <span class="highlight-text">&</span> Strategy
-                </span>
-                <span>
-                    <div class="live-dot"></div>
-                    Latest updates are <span class="highlight-text">Live</span>
-                </span>
-            </div>
+<!-- PRELOADER -->
+<div id="loader">
+    <div class="loader-ring"></div>
+    <p style="color:#94a3b8;">Loading AI Workspace...</p>
+</div>
+
+<!-- FLOATING NAV -->
+<div class="floating-nav">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            <i class="fas fa-robot"></i>
         </div>
 
-        <button class="launch-btn" onclick="openHomeLink(event)">
-            OPEN 
-            <svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
+        <div>
+            <h2>DebeatzGH AI Hub</h2>
+            <p>Professional Chat Interfaces</p>
+        </div>
+
+    </div>
+
+    <div class="live-status">
+        <span class="pulse-dot"></span>
+        AI Systems Online
+    </div>
+
+    <button class="nav-btn"
+    onclick="window.open('https://debeatzgh1.github.io/','_blank')">
+        Open Ecosystem
+    </button>
+
+</div>
+
+<!-- HERO -->
+<section class="hero">
+
+    <div class="hero-badge">
+        <i class="fas fa-sparkles"></i>
+        Premium AI Assistant Workspace
+    </div>
+
+    <h1>
+        Professional
+        <span>AI Chat Experiences</span>
+    </h1>
+
+    <p>
+        Modern GitHub Pages AI interface optimized for startups,
+        automation systems, customer support, AI communities,
+        productivity agents, and business intelligence assistants.
+    </p>
+
+</section>
+
+<!-- STATS -->
+<section class="stats">
+
+    <div class="stat-box">
+        <h2>24/7</h2>
+        <p>AI Availability</p>
+    </div>
+
+    <div class="stat-box">
+        <h2>Fast</h2>
+        <p>Lazy Load Performance</p>
+    </div>
+
+    <div class="stat-box">
+        <h2>Secure</h2>
+        <p>Cloud Powered Workspace</p>
+    </div>
+
+    <div class="stat-box">
+        <h2>Modern</h2>
+        <p>Mobile Responsive UI</p>
+    </div>
+
+</section>
+
+<!-- AI AGENTS -->
+<section class="section">
+
+    <div class="section-head">
+
+        <span class="section-tag">
+            AI Selection Lounge
+        </span>
+
+        <h2 class="section-title">
+            Choose Your AI Assistant
+        </h2>
+
+        <p class="section-desc">
+            Load chat agents dynamically using optimized lazy-loading
+            architecture designed for GitHub Pages deployment.
+        </p>
+
+    </div>
+
+    <div class="carousel">
+
+        <!-- BOT 1 -->
+        <div class="bot-card">
+
+            <img loading="lazy"
+            class="bot-image"
+            src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200&auto=format&fit=crop"
+            alt="AI Assistant">
+
+            <div class="bot-body">
+
+                <div class="bot-badge">
+                    <i class="fas fa-bolt"></i>
+                    Productivity AI
+                </div>
+
+                <h3>AI Companion</h3>
+
+                <p>
+                    Smart assistant for daily productivity,
+                    brainstorming, content generation,
+                    and creative workflows.
+                </p>
+
+                <div class="bot-actions">
+
+                    <button class="bot-btn primary-btn"
+                    onclick="activateChat('https://agent.jotform.com/0195482a4e8d72b894a09678ddb9b513d564')">
+                        Launch Chat
+                    </button>
+
+                    <button class="bot-btn secondary-btn"
+                    onclick="showInfo('AI Companion','Creative productivity assistant for writing, planning and workflow optimization.')">
+                        Details
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- BOT 2 -->
+        <div class="bot-card">
+
+            <img loading="lazy"
+            class="bot-image"
+            src="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1200&auto=format&fit=crop"
+            alt="Automation AI">
+
+            <div class="bot-body">
+
+                <div class="bot-badge">
+                    <i class="fas fa-microchip"></i>
+                    Automation AI
+                </div>
+
+                <h3>DebeatzGH AI</h3>
+
+                <p>
+                    Advanced automation assistant for
+                    digital strategies, startup ideas,
+                    monetization systems, and AI growth.
+                </p>
+
+                <div class="bot-actions">
+
+                    <button class="bot-btn primary-btn"
+                    onclick="activateChat('https://agent.jotform.com/0195424fb5d47897a72080768094791e9c32')">
+                        Launch Chat
+                    </button>
+
+                    <button class="bot-btn secondary-btn"
+                    onclick="showInfo('DebeatzGH AI','Premium business and automation assistant optimized for digital growth.')">
+                        Details
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- BOT 3 -->
+        <div class="bot-card">
+
+            <img loading="lazy"
+            class="bot-image"
+            src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop"
+            alt="Business AI">
+
+            <div class="bot-body">
+
+                <div class="bot-badge">
+                    <i class="fas fa-chart-line"></i>
+                    Strategy AI
+                </div>
+
+                <h3>Income Strategist</h3>
+
+                <p>
+                    Discover side hustle opportunities,
+                    online business systems,
+                    affiliate growth, and monetization.
+                </p>
+
+                <div class="bot-actions">
+
+                    <button class="bot-btn primary-btn"
+                    onclick="activateChat('https://agent.jotform.com/0195479af1b879f3a82ea15cbaf3859eaa44')">
+                        Launch Chat
+                    </button>
+
+                    <button class="bot-btn secondary-btn"
+                    onclick="showInfo('Income Strategist','Business intelligence assistant focused on online income strategies.')">
+                        Details
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- CHAT ZONE -->
+<section class="chat-zone" id="chatZone">
+
+    <div class="section-head">
+
+        <span class="section-tag">
+            Interaction Bay
+        </span>
+
+        <h2 class="section-title">
+            Live AI Workspace
+        </h2>
+
+    </div>
+
+    <!-- PLACEHOLDER -->
+    <div class="chat-placeholder" id="placeholder">
+
+        <i class="fas fa-comments"></i>
+
+        <h3>Select an AI Assistant</h3>
+
+        <p>
+            The chat interface loads only when activated,
+            ensuring fast performance and reduced bandwidth usage.
+        </p>
+
+    </div>
+
+    <!-- FRAME -->
+    <div class="chat-frame" id="chatFrame">
+
+        <iframe
+        id="chatIframe"
+        loading="lazy"
+        allowfullscreen>
+        </iframe>
+
+    </div>
+
+</section>
+
+<!-- FEATURES -->
+<section class="section">
+
+    <div class="section-head">
+
+        <span class="section-tag">
+            Premium Features
+        </span>
+
+        <h2 class="section-title">
+            Optimized Professional Experience
+        </h2>
+
+    </div>
+
+    <div class="features">
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                <i class="fas fa-gauge-high"></i>
+            </div>
+
+            <h3>Fast Performance</h3>
+
+            <p>
+                Lazy-loaded AI chat interfaces optimized
+                for GitHub Pages and mobile browsers.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                <i class="fas fa-layer-group"></i>
+            </div>
+
+            <h3>Modern UI System</h3>
+
+            <p>
+                Premium floating navigation,
+                animated components,
+                and futuristic design language.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                <i class="fas fa-mobile-screen"></i>
+            </div>
+
+            <h3>Responsive Design</h3>
+
+            <p>
+                Fully responsive experience across
+                desktop, tablet, and mobile devices.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                <i class="fas fa-shield-halved"></i>
+            </div>
+
+            <h3>Professional Structure</h3>
+
+            <p>
+                Organized AI sections,
+                structured layouts,
+                and scalable deployment architecture.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+
+    <h4 id="popupTitle">Assistant Details</h4>
+
+    <p id="popupText">
+        Professional AI assistant information.
+    </p>
+
+    <div class="popup-actions">
+
+        <button class="popup-primary"
+        onclick="closePopup()">
+            Continue
         </button>
-    </div>
 
-    <script>
-        /**
-         * Opens the specified URL in a new tab without navigating
-         * away from the current page.
-         * @param {Event} e - Optional event object to prevent bubbling.
-         */
-        function openHomeLink(e) {
-            // Check if event exists and stop propagation so clicking the button
-            // doesn't also trigger the banner's onclick.
-            if (e && e.stopPropagation) {
-                e.stopPropagation();
-            }
-            
-            // window.open(url, '_blank') opens in a new tab.
-            window.open("https://debeatzgh1.github.io/-My-Brand-Online-Digital-Products-Affiliate-Shop/", "_blank");
-        }
-    </script>
-
-</body>
-</html>
-
-
-
-
-
-
-
-<!-- Elfsight AI Chatbot | Assistant Bot -->
-<script src="https://elfsightcdn.com/platform.js" async></script>
-<div class="elfsight-app-2552d2e4-68c0-45de-b815-0f6717b1a0e6" data-elfsight-app-lazy></div>
-
-
-
-# 🤖  AI Assistant Hub
-
-A professional, high-performance portal for interacting with purpose-built AI agents. This UI is optimized for GitHub Pages and utilizes a dual-section layout to balance selection and interaction.
-
-## 📂 Project Structure
-* **Section 1: The Selection Lounge:** An auto-scrolling (touch-enabled) carousel containing Jotform AI Agents.
-* **Section 2: The Interaction Bay:** A lazy-loading iframe environment that preserves system resources by only loading the chatbot interface when a user makes a selection.
-
-## 🚀 Key Features
-1.  **Lazy-Load Execution:** Chatbots (iframes) do not load on page start, ensuring a 100/100 performance score and fast initial paint.
-2.  **Adaptive WordPress Nudge:** A floating notification system that prompts users for action after 5 seconds of engagement.
-3.  **Cross-Platform Compatibility:** Responsive design that switches from a 3-column layout on desktop to a single-card swipeable carousel on mobile.
-4.  **Jotform Agent Integration:** Specifically styled for the Jotform AI ecosystem, ensuring the chat interface fits perfectly within the viewport.
-
-## 🛠 Setup & Customization
-To add a new chatbot:
-1.  Copy a `.bot-card` div in the first section.
-2.  Update the `activateChat` function call with your new **Jotform Agent URL**.
-3.  Replace the `img src` with your custom branding.
-
-## 📜 Deployment
-This script is standalone. Upload `index.html` to any GitHub Pages repository or paste it into a Blogger HTML gadget for instant deployment.
-
----
-
-
-
-
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeBeatzGH | AI Assistant Hub</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
-        
-        :root {
-            --accent: #00f2ff;
-            --bg-dark: #0a0a0c;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.1);
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: #fff;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            scroll-behavior: smooth;
-        }
-
-        /* --- SECTION 1: SELECTION CAROUSEL --- */
-        .carousel-container {
-            display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
-            gap: 20px; padding: 20px; scrollbar-width: none;
-        }
-        .carousel-container::-webkit-scrollbar { display: none; }
-
-        .bot-card {
-            min-width: 300px; background: var(--card-bg);
-            border: 1px solid var(--border); border-radius: 24px;
-            overflow: hidden; scroll-snap-align: start; transition: 0.4s;
-            position: relative;
-        }
-        .bot-card:hover { border-color: var(--accent); transform: translateY(-5px); }
-
-        /* --- SECTION 2: LAZY INTERFACE BAY --- */
-        .interface-bay {
-            background: rgba(0,0,0,0.3); border-top: 1px solid var(--border);
-            min-height: 600px; margin-top: 50px; padding: 40px 20px;
-        }
-
-        .chat-frame-wrapper {
-            width: 110%; height: 600px; background: #111;
-            border-radius: 20px; border: 1px solid var(--border);
-            overflow: hidden; margin-bottom: 40px; display: none;
-        }
-        .chat-frame-wrapper.active { display: block; animation: fadeIn 0.8s ease; }
-
-        /* --- FLOATING COMPONENTS --- */
-        .wp-float {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            z-index: 1000;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
-</head>
-<body>
-
-    <header class="pt-20 pb-10 text-center">
-        <h1 class="text-4xl font-black tracking-tighter">AI Assistant <span class="text-cyan-400">Hub</span></h1>
-        <p class="text-gray-500 mt-2">Select an agent to begin your session</p>
-    </header>
-
-    <div class="carousel-container max-w-6xl mx-auto">
-        <div class="bot-card">
-            <img src="https://debeatzgh.wordpress.com/wp-content/uploads/2025/08/createavibranteye-catchingyoutubeblogthumbnailfeaturingafloatingquizpop-upicononadigitalblogpage5084708667809205788.jpg" class="h-40 w-full object-cover opacity-60">
-            <div class="p-6">
-                <h3 class="font-bold text-lg">AI Companion</h3>
-                <p class="text-xs text-gray-400 mt-2 mb-4">Everyday productivity & creative ideas.</p>
-                <button onclick="activateChat('bot1', 'https://agent.jotform.com/0195482a4e8d72b894a09678ddb9b513d564')" class="w-full py-3 bg-cyan-500 text-black font-black rounded-xl text-[10px] uppercase tracking-widest hover:bg-white transition">Initialize Chat</button>
-            </div>
-        </div>
-
-        <div class="bot-card">
-            <img src="https://debeatzgh.wordpress.com/wp-content/uploads/2025/08/createamodernandcleanthumbnailforawebdevelopmentproducttitledmodernhomepagestylingtemplatewithtailwindcss3420170625469385526.jpg" class="h-40 w-full object-cover opacity-60">
-            <div class="p-6">
-                <h3 class="font-bold text-lg">Debeatzgh AI</h3>
-                <p class="text-xs text-gray-400 mt-2 mb-4">Expert automation & strategy assistant.</p>
-                <button onclick="activateChat('bot2', 'https://agent.jotform.com/0195424fb5d47897a72080768094791e9c32')" class="w-full py-3 bg-blue-500 text-white font-black rounded-xl text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">Initialize Chat</button>
-            </div>
-        </div>
-
-        <div class="bot-card">
-            <img src="https://debeatzgh.wordpress.com/wp-content/uploads/2025/08/designadigitalproductse-commerceonlinedeals3545265155247625100.jpg" class="h-40 w-full object-cover opacity-60">
-            <div class="p-6">
-                <h3 class="font-bold text-lg">Income Strategist</h3>
-                <p class="text-xs text-gray-400 mt-2 mb-4">Monetization & side-hustle logic.</p>
-                <button onclick="activateChat('bot3', 'https://agent.jotform.com/0195479af1b879f3a82ea15cbaf3859eaa44')" class="w-full py-3 bg-purple-500 text-white font-black rounded-xl text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">Initialize Chat</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="interface-bay" id="interaction-bay">
-        <div class="max-w-4xl mx-auto text-center mb-10" id="bay-placeholder">
-            <i class="fas fa-robot text-4xl text-gray-800 mb-4"></i>
-            <p class="text-gray-600 font-bold uppercase text-xs tracking-widest">Select an agent above to load interface</p>
-        </div>
-        
-        <div id="chat-viewport" class="max-w-5xl mx-auto">
-            <div id="bot-frame-container" class="chat-frame-wrapper">
-                <iframe id="active-iframe" src="" class="w-full h-full border-none"></iframe>
-            </div>
-        </div>
-    </div>
-
-    <div class="wp-float">
-        <div id="wp-nudge" class="hidden bg-black/90 border border-cyan-500/30 p-3 rounded-2xl mb-4 flex items-center gap-4 shadow-2xl animate-bounce">
-            <span class="text-[10px] text-white">Claim your <strong>.wordpress.com</strong> site!</span>
-            <button onclick="document.getElementById('wp-nudge').remove()" class="text-gray-500">✕</button>
-        </div>
-        <button onclick="window.open('https://debeatzgh1.github.io/Blogger-sign-up-button-/', '_blank')" class="bg-cyan-400 text-black px-6 py-3 rounded-full font-black text-[10px] tracking-tighter uppercase flex items-center gap-2 shadow-lg">
-            <i class="fab fa-wordpress text-lg"></i> Create Site
+        <button class="popup-secondary"
+        onclick="closePopup()">
+            Close
         </button>
+
     </div>
 
-    <script>
-        function activateChat(botId, url) {
-            // Hide placeholder
-            document.getElementById('bay-placeholder').style.display = 'none';
-            
-            // Setup Frame
-            const container = document.getElementById('bot-frame-container');
-            const iframe = document.getElementById('active-iframe');
-            
-            // Lazy load source
-            iframe.src = url;
-            container.classList.add('active');
-            
-            // Smooth scroll to chat
-            window.scrollTo({
-                top: document.getElementById('interaction-bay').offsetTop - 20,
-                behavior: 'smooth'
-            });
-        }
+</div>
 
-        // Show WP Nudge after delay
-        setTimeout(() => {
-            document.getElementById('wp-nudge').classList.remove('hidden');
-        }, 5000);
-    </script>
+<!-- FOOTER -->
+<footer>
+
+    <h2 style="font-size:2rem;margin-bottom:16px;">
+        Premium AI Workspace
+    </h2>
+
+    <p>
+        Designed for creators, startups, AI educators,
+        customer support systems, productivity hubs,
+        and professional GitHub Pages deployment.
+    </p>
+
+</footer>
+
+<script>
+
+/* =========================
+PRELOADER
+========================= */
+
+window.addEventListener('load',()=>{
+
+    setTimeout(()=>{
+
+        document.getElementById('loader').style.display='none';
+
+    },1000);
+
+});
+
+/* =========================
+CHAT ACTIVATION
+========================= */
+
+function activateChat(url){
+
+    const frame=document.getElementById('chatFrame');
+    const iframe=document.getElementById('chatIframe');
+    const placeholder=document.getElementById('placeholder');
+
+    placeholder.style.display='none';
+
+    iframe.src=url;
+
+    frame.classList.add('active');
+
+    document.getElementById('chatZone')
+    .scrollIntoView({
+        behavior:'smooth'
+    });
+
+}
+
+/* =========================
+POPUP
+========================= */
+
+function showInfo(title,text){
+
+    document.getElementById('popupTitle').innerText=title;
+
+    document.getElementById('popupText').innerText=text;
+
+    document.getElementById('popup').style.display='block';
+
+}
+
+function closePopup(){
+
+    document.getElementById('popup').style.display='none';
+
+}
+
+/* =========================
+WELCOME POPUP
+========================= */
+
+setTimeout(()=>{
+
+    showInfo(
+        'Welcome to AI Assistant Hub',
+        'Choose an AI agent to begin a premium interactive workspace experience.'
+    );
+
+},4000);
+
+</script>
+
 </body>
 </html>
