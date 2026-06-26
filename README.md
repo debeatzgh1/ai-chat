@@ -621,7 +621,7 @@ MOBILE
         </div>
 
         <div>
-            <h2>DebeatzGH AI Hub</h2>
+            <h2>AI Hub</h2>
             <p>Professional Chat Interfaces</p>
         </div>
 
@@ -763,7 +763,7 @@ MOBILE
                     Automation AI
                 </div>
 
-                <h3>DebeatzGH AI</h3>
+                <h3> AI</h3>
 
                 <p>
                     Advanced automation assistant for
@@ -804,7 +804,7 @@ MOBILE
                     Strategy AI
                 </div>
 
-                <h3>Income Strategist</h3>
+                <h3>Asset Strategist</h3>
 
                 <p>
                     Discover side hustle opportunities,
