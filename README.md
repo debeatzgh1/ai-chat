@@ -95,8 +95,8 @@ TRIGGER BUTTON
 
 .sidebar-trigger{
     position:fixed;
-    top:25px;
-    left:25px;
+    bottom:25px;
+    right:25px;
     width:20px;
     height:20px;
     border:none;
